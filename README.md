@@ -1,4 +1,4 @@
-<h1>GPS Tracking System 
+<h1 style ={text-align: "center" }>GPS Tracking System 
 </h1>
 <h3>
   description 

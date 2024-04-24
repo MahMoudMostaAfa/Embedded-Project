@@ -10,6 +10,7 @@ void UART_0_Init(void){
 	UART0_IBRD_R = 104 ; // int( 16M /16*9600) 
 	UART0_FBRD_R=11 ;  // int(.16*64 +.5)
 	UART0_LCRH_R= 0x0070 ;// 8-bit word length ,enable fifo
+	SET(UART0_CTL_R ,UART_CTL_UARTEN) ; //enable uart
 	SET(GPIO_PORTA_AFSEL_R,0x03); //enable alt function PA0,PA1
 	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R & 0xFFFFFF00) + 0x00000011; // configure uart for PA0 ,PA1
 	SET(GPIO_PORTA_DEN_R ,0x03);// enable digital
@@ -38,6 +39,7 @@ void UART_1_Init(void){
 	UART1_IBRD_R = 104 ; // int( 16M /16*9600) 
 	UART1_FBRD_R=11 ;  // int(.16*64 +.5)
 	UART1_LCRH_R= 0x0070 ;// 8-bit word length ,enable fifo
+	SET(UART1_CTL_R ,UART_CTL_UARTEN) ; //enble uart
 	SET(GPIO_PORTB_AFSEL_R,0x03); //enable alt function PB0,PB1
 	GPIO_PORTB_PCTL_R = (GPIO_PORTA_PCTL_R & 0xFFFFFF00) + 0x00000011; // configure uart for PA0 ,PA1
 	SET(GPIO_PORTB_DEN_R ,0x03);// enable digital

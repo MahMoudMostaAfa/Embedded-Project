@@ -54,3 +54,6 @@ void UART_1_Write(char data){
 	while((UART1_FR_R & 0x0020) != 0); // check if fifo is full
 	UART1_DR_R = data;
 }
+
+
+int main(){}

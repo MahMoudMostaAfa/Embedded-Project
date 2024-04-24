@@ -10,11 +10,45 @@
 
 # include "GPS.h"
 # include "Bit_Utilies.h"
-
+#include "UART.h"
 # include <math.h>
+#include <string.h>
 
- const double EARTHRADIUS = 6371000;
+const double EARTHRADIUS = 6371000;
+
+char logName[] = "$GPRMC,"; //Logname to get the required Log
+char finalLog[100];	//
+
+void readGPS() {
+	char charRead;
+	while(1) {
+		char i = 0;
+		//Loop to get the required logname
+		for(; i < 7; i++) {
+			charRead = UART_0_Read();
+			if(charRead != logName[i]) {
+				//break if its not the logname
+				break;
+			}
+		}
+		//If the for loop finished without breaking then its the required logname
+		if(i == 7) {//	i == 7 if the loop didn't break
+			charRead = UART_0_Read();//	update charRead 
+			break;
+		}
+	}
 	
+	strcpy(finalLog, ""); //Clear finalLog
+	
+	//loop to get log after "$GPRMC,"  (not taking logName)
+	char logIndex = 0;
+	while(charRead != '*') {
+		finalLog[logIndex++] = charRead;
+		charRead = UART_0_Read();
+	}
+}
+
+
 
 float ToDegree (float angle) {
 	int degree = (int)degree/100 ;

@@ -3,6 +3,8 @@ Listings/
 Objects/
 RTE/
 *.uvprojx
+*.uvprojx.*
+*.uvproj.*
 *.uvproj
 *.build_log
 startup_TM4C123.*
@@ -26,6 +28,7 @@ startup_TM4C123.*
 *.map
 *.m51
 *.m66
+*.bak
 # define exception below if needed
 *.scr
 

@@ -9,7 +9,7 @@
 ***************************************************************************/
 
 # include "GPS.h"
-# include "Bit_Utilies.h"
+# include "bit_utilies.h"
 #include "UART.h"
 # include <math.h>
 #include <string.h>
@@ -76,11 +76,21 @@ float GPS_getDistance (float currentLong, float currentlat, float destlong, floa
 	float latDiff  = destLatRad  - currentLatRad ;  // get the differance in lattitude
 	
  // Calculate Distance
- float  a = pow(sin(latDiff/2), 2)+ cos(currentLatRad) *cos(destLatRad) *pow(sin(longDiff/2),2);// Haversine formular 
+ float  a = pow(sin(latDiff/2), 2)+ cos(currentLatRad) *cos(destLatRad) *pow(sin(longDiff/2),2);// Haversine formula
  double c = 2*atan2(sqrt(a), sqrt(1-a));
     return  EARTHRADIUS * c ;
 	
 }
+
+// Calculate the total Distance
+// inputs:
+// distance : distance moved between two points
+// totalDistance : pointer to the total distance variable
+float GPS_calcTotalDistance(float distance, float *totalDistance) {
+    *totalDistance += distance;
+    return *totalDistance;
+}
+
 
 
 

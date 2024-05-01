@@ -46,16 +46,15 @@ void UART_1_Init(void){
 	CLR_BIT(GPIO_PORTB_AMSEL_R,0x03); //disble analog
 	
 }
+// Write data for UART 1
+void UART_1_Write(char data) {
+	while ((UART1_FR_R & 0x0020)!=0) ; 	// check if fifo is full
+	UART1_DR_R = data ;
+}
 // read data for UART 1
 char UART_1_Read(void){
-	while( (UART1_FR_R & 0x0010)!= 0 ) ; // check if fifo is empty
+	while ((UART1_FR_R & 0x0010)!=0);	// check if fifo is empty
 	return (char) (UART1_DR_R & 0xFF);
 }
-// Write data for UART 1
-void UART_1_Write(char data){
-	while((UART1_FR_R & 0x0020) != 0); // check if fifo is full
-	UART1_DR_R = data;
-}
-
 
 int main(){}

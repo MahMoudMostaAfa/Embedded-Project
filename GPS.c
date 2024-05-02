@@ -1,12 +1,3 @@
-/**************************************************************************
-*                                File GPS.c                               *
-*                         Embedded project Team                           *
-*                                                                         *
-*           author/ Ahmed Karam  @ 24/4/24                                *
-*                                                                         *
-*                                                                         *
-*                                                                         *
-***************************************************************************/
 #include "GPS.h"
 #include "bit_utilies.h"
 #include "UART.h"
@@ -93,27 +84,23 @@ void GPS_Data(){
 
 
 
-
-double ToDegree (double angle) {
-	int degree = (int)degree/100 ;
-	double minutes = angle -(double)degree*100 ;
-    return (degree+ (minutes/60) ) ;
-	}
-
 	// ToRad function to convert the angle from Todegree reading Torad
 
 double ToRad(double angle) {
-	  return angle*PI/180 ;
+	int degree = (int)angle/100 ;
+	double minutes = angle -(double)degree*100 ;
+    angle = (degree+ (minutes/60) ) ;
+    return angle*PI/180 ;
 	}
 
 
 	 //  Radian Angle
 double GPS_getDistance (double currentLong, double currentlat, double destlong, double destlat) {
 
- double currentLongRad = ToRad(ToDegree(currentLong)); // longitude of current point
- double currentLatRad  = ToRad(ToDegree(currentlat )); // lattitude  of current point
- double destLongRad    = ToRad(ToDegree(destlong   )); // longitude of destination point
- double destLatRad     = ToRad(ToDegree(destlat    )); // lattitude of destination point
+ double currentLongRad = ToRad(currentLong); // longitude of current point
+ double currentLatRad  = ToRad(currentlat); // lattitude  of current point
+ double destLongRad    = ToRad(destlong); // longitude of destination point
+ double destLatRad     = ToRad(destlat); // lattitude of destination point
 
  // Get Difference
 	double longDiff = destLongRad - currentLongRad;  // get the differance in longtitude

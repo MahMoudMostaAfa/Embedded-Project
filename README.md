@@ -9,6 +9,7 @@ The collected data will then be efficiently transferred to a personal computer (
 visualized on a map application.</p>
 ### Contributors
 
+
 <table>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">

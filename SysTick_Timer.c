@@ -1,12 +1,12 @@
-#include "tm4c123gh6pm"
+#include "tm4c123gh6pm.h"
 #include <stdint.h>
 
 void SysTick_Init() // To initialize SysTick Counter
 {
-	NVIC_ST_CTLR_R = 0;
-	NVIC_ST_RELOAD_R = 1;
-	NVIC_ST_CURRENT_R = 0;
-	NVIC_ST_CTLR_R = 0X05;
+	NVIC_ST_CTLR_R = 0;    //disable SysTick during setup
+	NVIC_ST_RELOAD_R = 1;  // just intial val for the RELOAD register
+	NVIC_ST_CURRENT_R = 0; // to assure that any Curren val clear
+	NVIC_ST_CTLR_R = 0X05; // Enable the SysTick with no intrrupt
 }
 
 void SysTick_wait_1ms() // for 1 milli second Delay

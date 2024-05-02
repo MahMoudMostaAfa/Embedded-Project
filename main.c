@@ -1,11 +1,10 @@
 #include "tm4c123gh6pm.h"
 #include "bit_utilies.h"
-#include "GPS.h"
+//#include "GPS.h"
 #include "UART.h"
 #include "GPIO_SWITCHES.h"
 
 int main (void) {
-
     RGBLED_Init();
     SW_Init();    
     //int param;

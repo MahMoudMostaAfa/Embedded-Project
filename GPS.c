@@ -7,12 +7,10 @@
 *                                                                         *
 *                                                                         *
 ***************************************************************************/
-
-# include "GPS.h"
-# include "bit_utilies.h"
+#include "GPS.h"
+#include "bit_utilies.h"
 #include "UART.h"
-#include "UART.c"
-# include <math.h>
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -23,9 +21,9 @@ char finalLog[100];	//Taking the overall GPS log as 1D array
 char GPS_Array[12][18]; //Formatting the GPS log into 2D array to analyze its data
 char *container ; //pointer used in formatting the GPS log data
 
-float clong , clat , deviceSpeed ;
+double clong , clat , deviceSpeed ;
 int date ;
-const float destLong , destLat ;
+const double destLong , destLat ;
 
 
 void readGPS() {
@@ -96,33 +94,33 @@ void GPS_Data(){
 
 
 
-float ToDegree (float angle) {
+double ToDegree (double angle) {
 	int degree = (int)degree/100 ;
-	float minutes = angle -(float)degree*100 ;
+	double minutes = angle -(double)degree*100 ;
     return (degree+ (minutes/60) ) ;
 	}
 
 	// ToRad function to convert the angle from Todegree reading Torad
 
-float ToRad(float angle) {
+double ToRad(double angle) {
 	  return angle*PI/180 ;
 	}
 
 
 	 //  Radian Angle
-float GPS_getDistance (float currentLong, float currentlat, float destlong, float destlat) {
+double GPS_getDistance (double currentLong, double currentlat, double destlong, double destlat) {
 
- float currentLongRad = ToRad(ToDegree(currentLong)); // longitude of current point
- float currentLatRad  = ToRad(ToDegree(currentlat )); // lattitude  of current point
- float destLongRad    = ToRad(ToDegree(destlong   )); // longitude of destination point
- float destLatRad     = ToRad(ToDegree(destlat    )); // lattitude of destination point
+ double currentLongRad = ToRad(ToDegree(currentLong)); // longitude of current point
+ double currentLatRad  = ToRad(ToDegree(currentlat )); // lattitude  of current point
+ double destLongRad    = ToRad(ToDegree(destlong   )); // longitude of destination point
+ double destLatRad     = ToRad(ToDegree(destlat    )); // lattitude of destination point
 
  // Get Difference
-	float longDiff = destLongRad - currentLongRad;  // get the differance in longtitude
-	float latDiff  = destLatRad  - currentLatRad ;  // get the differance in lattitude
+	double longDiff = destLongRad - currentLongRad;  // get the differance in longtitude
+	double latDiff  = destLatRad  - currentLatRad ;  // get the differance in lattitude
 
  // Calculate Distance
- float  a = pow(sin(latDiff/2), 2)+ cos(currentLatRad) *cos(destLatRad) *pow(sin(longDiff/2),2);// Haversine formula
+ double  a = pow(sin(latDiff/2), 2)+ cos(currentLatRad) *cos(destLatRad) *pow(sin(longDiff/2),2);// Haversine formula
  double c = 2*atan2(sqrt(a), sqrt(1-a));
     return  EARTHRADIUS * c ;
 
@@ -132,7 +130,7 @@ float GPS_getDistance (float currentLong, float currentlat, float destlong, floa
 // inputs:
 // distance : distance moved between two points
 // totalDistance : pointer to the total distance variable
-float GPS_calcTotalDistance(float distance, float *totalDistance) {
+double GPS_calcTotalDistance(double distance, double *totalDistance) {
     *totalDistance += distance;
     return *totalDistance;
 }

@@ -56,5 +56,3 @@ char UART_1_Read(void){
 	while ((UART1_FR_R & 0x0010)!=0);	// check if fifo is empty
 	return (char) (UART1_DR_R & 0xFF);
 }
-
-int main(){}

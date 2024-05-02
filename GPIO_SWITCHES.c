@@ -41,9 +41,12 @@ void SW_Init(void){
 
 //take input from Switch 1 (PF0)
 unsigned char switch1_in(void){
-    return GPIO_PORTF_DATA_R & 0x01;
+    return GPIO_PORTF_DATA_R & 0x10;
 }
 
+unsigned char switch2_in(void){
+    return GPIO_PORTF_DATA_R & 0x01;
+}
 
 //turn on green led
 void green_on (void){
@@ -62,6 +65,6 @@ void Distance_check(int pass_100_meter){    /*value of *pass_100_meter* is 1 if 
 
 	 /*turn on green led if the push button is pressed or 
 		when the distance exceeds 100 meters*/  
-    if (pass_100_meter || (switch1_in() != 0x01)) green_on();
+    if (pass_100_meter || (switch1_in() != 0x10)) green_on();
     else green_off();
 }

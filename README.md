@@ -13,7 +13,6 @@ The goal of this project is to develop an embedded system using C programming th
 | Zeyad Anwar      | [Zeyad Anwar](https://github.com/Zeyad-Anwar)          |
 | Abdelrahman Soliman | [Abdelrahman Soliman](https://github.com/ASolimanA)   |
 | Muhammed EmadEldeen | [Muhammed EmadEldeen](https://github.com/Muhammed-EmadEldeen) |
-| Mahmoud Mostafa  | [Mahmoud Mostafa](https://github.com/MahMoudMostaAfa) |
 | Ahmed Karam      | [Ahmed Karam](https://github.com/2101767)              |
 | Mohamed Sameh    | [Mohamed Sameh](https://github.com/mohamedsameh20)     |
 | Youssef Ossamaa | [Youssef Ossamaa](https://github.com/YoussefOssamaa)  |

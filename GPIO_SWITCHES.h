@@ -1,4 +1,5 @@
-
+#ifndef GPIO_SWITCHES_H 
+#define GPIO_SWITCHES_H
 // Macros
 
 #define RED_LED       0x02           
@@ -17,3 +18,6 @@ unsigned char switch2_in(void);     //if needed
 void green_on(void);
 void green_off(void);
 void Distance_check(int pass_100_meter);
+
+
+#endif

@@ -9,6 +9,19 @@ The collected data will then be efficiently transferred to a personal computer (
 visualized on a map application.</p>
 <br>
 <br>
+<h3>Team Members</h3>
+
+- Mahmoud Mostafa
+- Ahmed Karam
+- Hisham Hatem
+- Zeyad Anwar
+- Abdelrahman Soliman
+- Mohamed Emad
+- Yossef Ossama
+- Mohamed Sameh
+- Marwan Elnabawy
+- Alharith Mujeeb
+
 <h3>Contributors</h3>
 
 

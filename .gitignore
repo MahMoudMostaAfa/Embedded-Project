@@ -8,7 +8,7 @@ RTE/
 *.uvproj
 *.build_log
 startup_TM4C123.*
-
+.vscode/
 # A .gitignore for Keil projects.
 # Taken mostly from http://www.keil.com/support/man/docs/uv4/uv4_b_filetypes.htm
 

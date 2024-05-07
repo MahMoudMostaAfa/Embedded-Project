@@ -51,7 +51,7 @@ void readGPS() {
 void GPS_Data(){
 
    char counter = 0 ;
-   container = strtok(finalLog , ",") ;
+   container = strtok(finalLog , ",") ; // strtok return pointer to first element of array
 
    while (container != NULL){  //Arranging the 2D array to take the GPS log data
      strcpy (GPS_Array[counter++] , container ) ;

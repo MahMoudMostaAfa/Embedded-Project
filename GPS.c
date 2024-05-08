@@ -16,6 +16,10 @@ double clong , clat , deviceSpeed ;
 int date ;
 const double destLong , destLat ;
 
+int longPoints[2000];
+int latPoints[2000];
+
+
 
 void readGPS() {
 	char charRead;
@@ -48,7 +52,7 @@ void readGPS() {
 
 }
 
-void GPS_Data(){
+void GPS_Data(int *currIndex){
 
    char counter = 0 ;
    container = strtok(finalLog , ",") ; // strtok return pointer to first element of array
@@ -63,20 +67,23 @@ void GPS_Data(){
          //collecting data from the GPS log
 
         if (strcmp(GPS_Array[3] , "N") == 0)
-            clat = atof (GPS_Array[2]) ;       //latitude value
+            latPoints[*currIndex] = atof (GPS_Array[2]) ;       //latitude value
         else
-            clat = -atof (GPS_Array[2]) ;
+            latPoints[*currIndex] = -atof (GPS_Array[2]) ;
 
 
         if (strcmp(GPS_Array[5] , "E") == 0)
-            clong = atof (GPS_Array[4]) ;       //longitude value
+            longPoints[*currIndex] = atof (GPS_Array[4]) ;       //longitude value
         else
-            clong = -atof (GPS_Array[4]) ;
+            longPoints[*currIndex] = -atof (GPS_Array[4]) ;
 
 
         deviceSpeed = atof (GPS_Array[6]);       //speed value
         date = atoi (GPS_Array[8]);
    }
+
+
+   *currIndex += 1 ; //increment the index to store the next GPS log data
 
 
 

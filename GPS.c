@@ -122,20 +122,3 @@ double GPS_calcTotalDistance(double distance, double *totalDistance) {
     return *totalDistance;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

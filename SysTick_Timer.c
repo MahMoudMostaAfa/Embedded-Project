@@ -24,3 +24,15 @@ void wait_ms(unsigned int time){
 		systick_wait_1ms();
 	}
 }
+void wait_sec(unsigned int seconds) {
+    NVIC_ST_CTRL_R = 0;					// disable the SysTick Timer
+    NVIC_ST_CURRENT_R = 0; 			    // resets the countflag
+    NVIC_ST_RELOAD_R = 16000000 - 1;    // count for 1 second at a time
+    NVIC_ST_CTRL_R |= 0x5; 			    // enable the timer with interrupt disabled
+    while(seconds > 0){
+        while ((NVIC_ST_CTRL_R & 0x10000) == 0); // Check for countflag
+        seconds--;
+    }
+    NVIC_ST_RELOAD_R = 0; // To avoid counting after the function is complete
+    NVIC_ST_CTRL_R = 0;
+}

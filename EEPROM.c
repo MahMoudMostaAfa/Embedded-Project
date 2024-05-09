@@ -77,9 +77,8 @@ void EEPROM_writeall(char *arr, uint16_t size) {
         for (uint16_t m = 0; m < wordsize; m++) {
             EEPROM_write_with_increment(words[m]);
         }
-        holder = words[wordsize];
-        holder = holder > (8*rem);
-        holder = holder < (8*rem);
+        holder = words[wordsize] >> (8*rem);
+        holder = holder << (8*rem);
         EEPROM_write_with_increment(holder);
     }
 }

@@ -17,24 +17,21 @@ double clong , clat , deviceSpeed ;
 int date ;
 const double destLong , destLat ;
 
+
 int longPoints[2000];
 int latPoints[2000];
 
-double GPS_main(){
-
-    double small_dist =0 , overall_dist =0  ;
+double GPS_main(int currIndex, double overall_dist){
 
     readGPS();    // the finalLog array is ready
-    GPS_Data();  // longitude points[] and latitude points[] arrays are ready
+    GPS_Data(currIndex);  // longitude points[] and latitude points[] arrays are ready
 
-    for (int i=1 ; i<2000 ; i++){  // looping through the long and lat arrays
-
-    small_dist = GPS_getDistance(longPoints[i-1] , latPoints[i-1] , longPoints[i] , latPoints[i]); // getting the distance walked between 2 points
-    overall_dist = GPS_calcTotalDistance(small_dist , overall_dist );  // passing the distance walked to add it to the total distance
-    small_dist = 0 ; // clearing the distance walked between 2 points
-
-
+    if (currIndex ==0){
+        return 0 ;
     }
+
+    double small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
+    overall_dist +=small_dist ; // adding the distance walked between 2 points to the overall distance walked
 
     return overall_dist ;
 }
@@ -71,9 +68,8 @@ void readGPS() {
 
 }
 
-void GPS_Data(){
+void GPS_Data(int currIndex){
 
-   char currIndex = 0 ;
 
    char counter = 0 ;
    container = strtok(finalLog , ",") ; // strtok return pointer to first element of array
@@ -139,14 +135,5 @@ double GPS_getDistance (double currentLong, double currentlat, double destlong, 
  double c = 2*atan2(sqrt(a), sqrt(1-a));
     return  EARTHRADIUS * c ;
 
-}
-
-// Calculate the total Distance
-// inputs:
-// distance : distance moved between two points
-// totalDistance : pointer to the total distance variable
-double GPS_calcTotalDistance(double distance, double totalDistance) {
-    totalDistance += distance;
-    return totalDistance;
 }
 

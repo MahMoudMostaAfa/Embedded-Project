@@ -6,5 +6,8 @@
 
 double GPS_getDistance (double currentLong, double currentlat, double destlong, double destlat);
 double GPS_calcTotalDistance(double distance, double *totalDistance);
+void readGPS();
+void GPS_Data();
+void GPS_Data(int currIndex);
 
 #endif

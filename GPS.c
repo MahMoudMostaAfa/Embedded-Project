@@ -1,6 +1,7 @@
 #include "GPS.h"
 #include "bit_utilies.h"
 #include "UART.h"
+#include "UART.c"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
@@ -19,6 +20,24 @@ const double destLong , destLat ;
 int longPoints[2000];
 int latPoints[2000];
 
+double GPS_main(){
+
+    double small_dist =0 , overall_dist =0  ;
+
+    readGPS();    // the finalLog array is ready
+    GPS_Data();  // longitude points[] and latitude points[] arrays are ready
+
+    for (int i=1 ; i<2000 ; i++){  // looping through the long and lat arrays
+
+    small_dist = GPS_getDistance(longPoints[i-1] , latPoints[i-1] , longPoints[i] , latPoints[i]); // getting the distance walked between 2 points
+    overall_dist = GPS_calcTotalDistance(small_dist , overall_dist );  // passing the distance walked to add it to the total distance
+    small_dist = 0 ; // clearing the distance walked between 2 points
+
+
+    }
+
+    return overall_dist ;
+}
 
 
 void readGPS() {
@@ -52,7 +71,9 @@ void readGPS() {
 
 }
 
-void GPS_Data(int *currIndex){
+void GPS_Data(){
+
+   char currIndex = 0 ;
 
    char counter = 0 ;
    container = strtok(finalLog , ",") ; // strtok return pointer to first element of array
@@ -67,15 +88,15 @@ void GPS_Data(int *currIndex){
          //collecting data from the GPS log
 
         if (strcmp(GPS_Array[3] , "N") == 0)
-            latPoints[*currIndex] = atof (GPS_Array[2]) ;       //latitude value
+            latPoints[currIndex] = atof (GPS_Array[2]) ;       //latitude value
         else
-            latPoints[*currIndex] = -atof (GPS_Array[2]) ;
+            latPoints[currIndex] = -atof (GPS_Array[2]) ;
 
 
         if (strcmp(GPS_Array[5] , "E") == 0)
-            longPoints[*currIndex] = atof (GPS_Array[4]) ;       //longitude value
+            longPoints[currIndex] = atof (GPS_Array[4]) ;       //longitude value
         else
-            longPoints[*currIndex] = -atof (GPS_Array[4]) ;
+            longPoints[currIndex] = -atof (GPS_Array[4]) ;
 
 
         deviceSpeed = atof (GPS_Array[6]);       //speed value
@@ -83,7 +104,7 @@ void GPS_Data(int *currIndex){
    }
 
 
-   *currIndex += 1 ; //increment the index to store the next GPS log data
+   currIndex += 1 ; //increment the index to store the next GPS log data
 
 
 
@@ -124,8 +145,8 @@ double GPS_getDistance (double currentLong, double currentlat, double destlong, 
 // inputs:
 // distance : distance moved between two points
 // totalDistance : pointer to the total distance variable
-double GPS_calcTotalDistance(double distance, double *totalDistance) {
-    *totalDistance += distance;
-    return *totalDistance;
+double GPS_calcTotalDistance(double distance, double totalDistance) {
+    totalDistance += distance;
+    return totalDistance;
 }
 

@@ -64,3 +64,73 @@ void LCD_Write_String(char String[]){
 void LCD_clear(void){
     LCD_Cmd(0x01);
 }
+
+
+//set 8-bit bus mode,   set 2 lines display mode,   set 5*8 dot format display mode
+void LCD_Function_Set(void)
+{
+	LCD_Cmd(0x38);
+}
+
+
+// return cursor to its original site, and return display to its original status
+void LCD_Return_Home(void)
+{
+	LCD_Cmd(0x02);
+}
+
+
+// Turn ON cursor
+void LCD_Cursor_ON(void)
+{
+	LCD_Cmd(0x0E);
+}
+
+// Turn OFF cursor
+void LCD_Cursor_OFF(void)
+{
+	LCD_Cmd(0x0C);
+}
+
+// make cursor blink (on-off-on-off...)
+void LCD_Cursor_Blink(void)
+{
+	LCD_Cmd(0x0F);
+}
+
+// shift displayed data to the right, cursor follows the shift
+void Display_Shift_Right(void)
+{
+	LCD_Cmd(0x1C);
+}
+
+// shift displayed data to the left, cursor follows the shift
+void Display_Shift_Left(void)
+{
+	LCD_Cmd(0x18);
+}
+
+// shift cursor to the right 
+void Cursor_Shift_right(void)
+{
+	LCD_Cmd(0x14);
+}
+
+// shift cursor to the left 
+void Cursor_Shift_left(void)
+{
+	LCD_Cmd(0x10);
+}
+
+// set the position of the cursor, choose line (1 or 2), choose block (0 to 15)
+void LCD_Set_Cursor(int line, int block) {
+  if (line == 1 & block <= 15) {
+    LCD_Cmd(0X80 + block);
+  }
+  else if (line == 2 & block <= 15) {
+    LCD_Cmd(0xC0 + block);
+  }
+  else {
+    LCD_Cmd(0x80);
+  }
+}

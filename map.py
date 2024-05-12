@@ -5,7 +5,7 @@ import pandas as pd
 file = pd.read_csv("output.csv")
 
 route_coordinates = list(zip(file["latitude"], file["longitude"]))
-middle = (int)(len(route_coordinates)/2)
+middle = int(len(route_coordinates)/2)
 # Create a base map
 m = folium.Map(location=route_coordinates[middle], zoom_start=17)
 

@@ -19,7 +19,7 @@ void UART_0_Init(void){
 }
 // read data for UART 0
 char UART_0_Read(void){
-	while( (UART0_FR_R & 0x0010) ; // stuck when fifo is empty
+	while( (UART0_FR_R & 0x0010)); // stuck when fifo is empty
 	return (char) (UART0_DR_R & 0xFF);
 }
 // Write data for UART 0

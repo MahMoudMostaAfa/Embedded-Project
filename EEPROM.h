@@ -8,3 +8,4 @@ uint32_t EEPROM_read_word();
 uint32_t EEPROM_read_word_with_increment();
 void EEPROM_writeall(char *arr, uint16_t size);
 void EEPROM_readall(char *arr, uint16_t size);
+void EEPROM_MassErase();

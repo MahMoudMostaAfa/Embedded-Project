@@ -41,9 +41,13 @@ void EEPROM_write(uint32_t word) {
 void EEPROM_write_with_increment(uint32_t word) {
     EEPROM_EERDWRINC_R = word;
 }
+
 // reads a word from the EEPROM and put it in a character array
 uint32_t EEPROM_read_word() {
     return (uint32_t)EEPROM_EERDWR_R;
+}
+void EEPROM_write_word(uint16_t word) {
+    EEPROM_EERDWR_R = word;
 }
 // reads a word from the EEPROM and put it in a character array
 // & then increments the block offset
@@ -54,13 +58,15 @@ uint32_t EEPROM_read_word_with_increment() {
 void EEPROM_readall(char *arr, uint16_t size) {
     uint32_t holder;
     char character;
+    uint16_t counter = 0;
+    uint32_t temp;
     while (1) {
-        uint16_t counter = 0;
         holder = EEPROM_read_word_with_increment();
         if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++;
-        for (uint16_t i = 0; i < 4 ; i++) {
-            character = (char)(holder >> (8 * (3 - i)));
-            if (character == null || counter == size -1) return;
+        for (char i = 0; i < 4 ; i++) {
+            temp = holder;
+            character = (char)(temp >> (8 * (3 - i)));
+            if (character == '\0' || counter == size -1) return;
             arr[counter] = character;
             counter++;
         }
@@ -68,17 +74,31 @@ void EEPROM_readall(char *arr, uint16_t size) {
 }
 // Writes an array of characters into EEPROM
 void EEPROM_writeall(char *arr, uint16_t size) {
-    uint32_t *words;
-    words = arr;
-    uint16_t wordsize = roundf(size/4.0f) -1;
-    uint8_t rem = size%4;
-    while (1) {
+    uint32_t temp;
+    uint16_t m = 0;
+    uint16_t counter = 0;
+    while (size > 0) {
         if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++;
-        for (uint16_t m = 0; m < wordsize; m++) {
-            EEPROM_write_with_increment(words[m]);
+        (size > 4) ? (m = 4) : (m = size);
+        temp = 0;
+        for (char i = 0; i < m; i++) {
+            temp = temp | ((uint32_t)*arr << (3-i)*8);
+            arr++;
+            size--;
         }
-        holder = words[wordsize] >> (8*rem);
-        holder = holder << (8*rem);
-        EEPROM_write_with_increment(holder);
+        EEPROM_EERDWRINC_R = temp;
+        counter++;
     }
+    // Writes the size of the stored data in words
+    // at the first word in the EEPROM
+    EEPROM_go_to(0,0);
+    EEPROM_write_word(counter);
+}
+
+// Mass erase the EEPROM
+void EEPROM_MassErase() {
+    SET(SYSCTL_SREEPROM_R,1);       // Set the software Reset register
+    while ((EEPROM_EEDONE_R & EEPROM_EEDONE_WORKING) != 0);
+    SET(EEPROM_EEDBGME_R, EEPROM_EEDBGME_ME);   // Set the mass erase bit
+    while ((EEPROM_EEDONE_R & EEPROM_EEDONE_WORKING) != 0);
 }

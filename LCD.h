@@ -16,6 +16,7 @@ void LCD_Cursor_OFF(void); // hide cursor
 void LCD_Cursor_Blink(void); // cursor is blinking (on-off-on-off....)
 void Cursor_Shift_right(void); // shift cursor to the right
 void Cursor_Shift_left(void); // shift cursor to the left
+void Cursor_Movet_right(void); // cursor move after each write to the right
 void Display_Shift_Right(void); // shift displayed data to the right
 void Display_Shift_Left(void);  // shift displayed data to the left
 void LCD_Set_Cursor(int line, int block); // set the position of the cursor

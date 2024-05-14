@@ -123,6 +123,12 @@ void Cursor_Shift_left(void)
 	LCD_Cmd(0x10);
 }
 
+// cursor move after each write to the right 
+void Cursor_Movet_right(void)
+{
+	LCD_Cmd(0x06);
+}
+
 // set the position of the cursor, choose line (1 or 2), choose block (0 to 15)
 void LCD_Set_Cursor(int line, int block) {
   if (line == 1 & block <= 15) {

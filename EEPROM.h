@@ -7,5 +7,5 @@ void EEPROM_write_with_increment(uint32_t word);
 uint32_t EEPROM_read_word();
 uint32_t EEPROM_read_word_with_increment();
 void EEPROM_writeall(char *arr, uint16_t size);
-void EEPROM_readall(char *arr, uint16_t size);
+void EEPROM_readall(char *arr);
 void EEPROM_MassErase();

@@ -1,5 +1,6 @@
 import serial
 import csv
+import os
 
 # Get a list of all COM ports
 com_ports = serial.tools.list_ports.comports()
@@ -70,7 +71,7 @@ for coordinate_str in coordinates:
     table.append(coordinate)
 
 # Open the csv file for writing
-with open('output.csv', 'x') as f:
+with open('output.csv', 'w', os.O_WRONLY | os.O_CREAT | os.O_TRUNC) as f:
     # Create a writer object for the file
     writer = csv.writer(f)
 

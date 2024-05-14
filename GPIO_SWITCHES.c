@@ -34,8 +34,19 @@ void SW_Init(void){
     GPIO_PORTF_AFSEL_R &= ~ALL_SWITCHES_VALUE;
     GPIO_PORTF_PCTL_R &= ~0x000F000F;
     GPIO_PORTF_DIR_R &= ~ALL_SWITCHES_VALUE;
+    GPIO_PORTF_PUR_R |= ALL_SWITCHES_VALUE;
     GPIO_PORTF_DEN_R |= ALL_SWITCHES_VALUE;
-    GPIO_PORTF_DATA_R &= ~ALL_SWITCHES_VALUE;
+    //GPIO_PORTF_DATA_R &= ~ALL_SWITCHES_VALUE;
+}
+// Enablling switch interrupts
+void enable_SW_Interrupts() {
+    GPIO_PORTF_IS_R = ALL_SWITCHES_VALUE;
+    GPIO_PORTF_IBE_R &= ~ALL_SWITCHES_VALUE;
+    GPIO_PORTF_IEV_R &= ~ALL_SWITCHES_VALUE;
+    GPIO_PORTF_IM_R |= ALL_SWITCHES_VALUE;
+    // Enabling Interrupts of port F
+    NVIC_PRI7_R |= 0x400000;
+    NVIC_EN0_R |= 0x40000000;
 }
 
 
@@ -53,12 +64,20 @@ void green_on (void){
     GPIO_PORTF_DATA_R |= GREEN_LED_VALUE;
 }
 
-
 //turn off green led
 void green_off(void){
     GPIO_PORTF_DATA_R &= ~GREEN_LED_VALUE;                 
 }
 
+//turn on red led
+void red_on (void){
+    GPIO_PORTF_DATA_R |= RED_LED;
+}
+
+//turn off red led
+void red_off(void){
+    GPIO_PORTF_DATA_R &= ~RED_LED;                 
+}
 
 void Distance_check(int pass_100_meter){    /*value of *pass_100_meter* is 1 if distance exceeds 100 meters
 																								0 if not                                                     */

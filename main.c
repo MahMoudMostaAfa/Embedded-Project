@@ -12,24 +12,24 @@ int main (void) {
     RGBLED_Init();
     SW_Init();
     UART_0_Init();
-    bool initSuccess = EEPROM_Init();
-    if (!initSuccess) return 1; 
+		bool initSuccess = EEPROM_Init();
+    if (!initSuccess) {return 1;} 
     // Test1 (EEPROM readall and writeall) //
 
-    // char test1[18] = "Hi, this is a test";   
-    // EEPROM_writeall(test1, 18);
-    // char test2[18];
-    // EEPROM_readall(&test2);
-    // bool flag = true;
-    // for (char i = 0; i < 18; i++) {
-    //     if (test1[i] != test2[i]) {
-    //         flag = false;
-    //         break;
-    //     }
-    // }
-    // if (flag) green_on();
-    // else red_on();
-    // while (1);
+    char test1[18] = "Hi, this is a test";   
+    EEPROM_writeall(test1, 18);
+    char test2[18];
+    EEPROM_readall(&test2);
+    bool flag = true;
+    for (char i = 0; i < 18; i++) {
+        if (test1[i] != test2[i]) {
+            flag = false;
+            break;
+        }
+    }
+    if (flag) green_on();
+    else red_on();
+    while (1);
 
     //int param;
 
@@ -63,15 +63,15 @@ int main (void) {
 //    while (1);
 
     //* Test4 (Storing float in EEPROM) *//
-    float fl = 31.279806995999685f;
-    uint32_t test1;
-    memcpy(&test1, &fl, sizeof(fl));
-    EEPROM_go_to(0,0);
-    EEPROM_write(test1);
-    uint32_t test2 = EEPROM_read_word();
-    float fll;
-    memcpy(&fll, &test2, sizeof(test2));
-    if (fl == fll) green_on();
-    else red_on();
-    while (1);
+    //float fl = 31.279806995999685f;
+    //uint32_t test1;
+    //memcpy(&test1, &fl, sizeof(fl));
+    //EEPROM_go_to(0,0);
+    //EEPROM_write(test1);
+    //uint32_t test2 = EEPROM_read_word();
+    //float fll;
+    //memcpy(&fll, &test2, sizeof(test2));
+    //if (fl == fll) green_on();
+    //else red_on();
+    //while (1);
 }

@@ -1,7 +1,7 @@
 #include "GPS.h"
 #include "bit_utilies.h"
 #include "UART.h"
-#include "UART.c"
+//#include "UART.c"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>

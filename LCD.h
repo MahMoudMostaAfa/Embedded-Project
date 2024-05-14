@@ -1,4 +1,5 @@
-
+#ifndef LCD_H
+#define LCD_H
 
 
 // Prototypes
@@ -20,3 +21,5 @@ void Cursor_Movet_right(void); // cursor move after each write to the right
 void Display_Shift_Right(void); // shift displayed data to the right
 void Display_Shift_Left(void);  // shift displayed data to the left
 void LCD_Set_Cursor(int line, int block); // set the position of the cursor
+
+#endif /*LCD_H*/

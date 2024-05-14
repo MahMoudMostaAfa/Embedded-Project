@@ -84,13 +84,13 @@ void GPS_Data(int currIndex){
          //collecting data from the GPS log
 
         if (strcmp(GPS_Array[3] , "N") == 0)
-            latPoints[currIndex] = atof (GPS_Array[2]) ;       //latitude value
+            latPoints[currIndex] = atof (GPS_Array[2]) ;       //latitude value if N save it as a +ve in lattitude and vice versa
         else
             latPoints[currIndex] = -atof (GPS_Array[2]) ;
 
 
         if (strcmp(GPS_Array[5] , "E") == 0)
-            longPoints[currIndex] = atof (GPS_Array[4]) ;       //longitude value
+            longPoints[currIndex] = atof (GPS_Array[4]) ;       //longitude value if E save it as a +ve in longPoints and vice versa
         else
             longPoints[currIndex] = -atof (GPS_Array[4]) ;
 

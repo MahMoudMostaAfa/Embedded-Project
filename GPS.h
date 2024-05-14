@@ -4,10 +4,11 @@
 # define  PI  3.141592653589793238462643
 
 
+float GPS_main(int *pCurrIndex);
 double GPS_getDistance (double currentLong, double currentlat, double destlong, double destlat);
-double GPS_calcTotalDistance(double distance, double *totalDistance);
 void readGPS();
-void GPS_Data();
-void GPS_Data(int currIndex);
+char* GPS_getOutput(int end);
+double ToRad(double angle);
+int GPS_Data(int currIndex);
 
 #endif

@@ -1,8 +1,8 @@
 #include "GPS.h"
 #include "bit_utilies.h"
 #include "UART.h"
-#include "UART.c"
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -13,29 +13,52 @@ char finalLog[100];	//Taking the overall GPS log as 1D array
 char GPS_Array[12][18]; //Formatting the GPS log into 2D array to analyze its data
 char *container ; //pointer used in formatting the GPS log data
 
-double clong , clat , deviceSpeed ;
-int date ;
 const double destLong , destLat ;
 
 
-int longPoints[2000];
-int latPoints[2000];
+double longPoints[2000];
+double latPoints[2000];
 
-double GPS_main(int currIndex, double overall_dist){
+char gpsOutput[4500];
 
+float GPS_main(int *pCurrIndex){
+
+    int currIndex = *pCurrIndex;
     readGPS();    // the finalLog array is ready
     GPS_Data(currIndex);  // longitude points[] and latitude points[] arrays are ready
+                          //
+    if (GPS_Data(currIndex)==-1){
+        return -1;
+    }
 
     if (currIndex ==0){
+
+        *pCurrIndex +=1;
         return 0 ;
     }
 
     double small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
-    overall_dist +=small_dist ; // adding the distance walked between 2 points to the overall distance walked
+                                                                                                                                          //
+    if (small_dist < 0.5){
+        return 0;
+    }
 
-    return overall_dist ;
+    *pCurrIndex +=1;
+
+    return small_dist ;
 }
 
+char* GPS_getOutput(int end){
+    char *ptr=gpsOutput;
+    int i=0;
+    for (i=0 ; i<end ; i++){
+        sprintf(ptr , "%f,%f|" , longPoints[i] , latPoints[i]) ;
+        ptr = strchr(ptr, '|')+1;
+
+    }
+
+    return gpsOutput ;
+}
 
 void readGPS() {
 	char charRead;
@@ -68,10 +91,10 @@ void readGPS() {
 
 }
 
-void GPS_Data(int currIndex){
+int GPS_Data(int currIndex){
 
 
-   char counter = 0 ;
+   int counter = 0 ;
    container = strtok(finalLog , ",") ; // strtok return pointer to first element of array
 
    while (container != NULL){  //Arranging the 2D array to take the GPS log data
@@ -79,7 +102,7 @@ void GPS_Data(int currIndex){
      container = strtok(NULL , ",") ;
    }
 
-   while (strcmp(GPS_Array[1] , "A") == 0 )   //verifying that the collected data is valid & we use strcmp as we are dealing with strings in the 2D array
+   if (strcmp(GPS_Array[1] , "A") == 0 )   //verifying that the collected data is valid & we use strcmp as we are dealing with strings in the 2D array
     {
          //collecting data from the GPS log
 
@@ -94,19 +117,10 @@ void GPS_Data(int currIndex){
         else
             longPoints[currIndex] = -atof (GPS_Array[4]) ;
 
-
-        deviceSpeed = atof (GPS_Array[6]);       //speed value
-        date = atoi (GPS_Array[8]);
+        return 0;
    }
-
-
-   currIndex += 1 ; //increment the index to store the next GPS log data
-
-
-
+   else return -1;
 }
-
-
 
 	// ToRad function to convert the angle from Todegree reading Torad
 

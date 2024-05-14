@@ -5,10 +5,10 @@
 
 
 float GPS_main(int *pCurrIndex);
-double GPS_getDistance (double currentLong, double currentlat, double destlong, double destlat);
+float GPS_getDistance (float currentLong, float currentlat, float destlong, float destlat);
 void readGPS();
 char* GPS_getOutput(int end);
-double ToRad(double angle);
+float ToRad(float angle);
 int GPS_Data(int currIndex);
 
 #endif

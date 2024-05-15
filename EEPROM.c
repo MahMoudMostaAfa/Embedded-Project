@@ -67,32 +67,30 @@ void EEPROM_readall(char *arr) {
             if (character == '\0' || counter == size -1) return;
             arr[counter] = character;
             counter++;
-        }
+        }                                                                                                                                                                                                                                                                                                       
     }
 }
 // Writes an array of characters into EEPROM
 void EEPROM_writeall(char *arr, uint16_t size) {
-    EEPROM_go_to(0,1);
+    EEPROM_go_to(0, 1); // Initialize EEPROM write pointer to start
     uint32_t temp;
-    uint16_t m = 0;
     uint16_t counter = 0;
     while (size > 0) {
-        (size > 4) ? (m = 4) : (m = size);
+        uint16_t remainingByte = (size > 4) ? 4 : size; // DeterremainingByteine bytes to process
         temp = 0;
-        for (char i = 0; i < m; i++) {
-            temp = temp | ((uint32_t)*arr << (3-i)*8);
-            arr++;
+        for (char i = 0; i < remainingByte; i++) {
+            temp |= ((uint32_t)(*arr++) << ((3 - i) * 8)); // Construct 32-bit
             size--;
         }
-        EEPROM_EERDWRINC_R = temp;
-        if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++;
+        EEPROM_EERDWRINC_R = temp; // Write to EEPROM and increment
+        if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++; // Handle block increment
         counter++;
     }
-    // Writes the size of the stored data in words
-    // at the first word in the EEPROM
-    EEPROM_go_to(0,0);
+    // Write the number of 32-bit words stored in the first word
+    EEPROM_go_to(0, 0);
     EEPROM_write(counter);
 }
+
 
 // Mass erase the EEPROM
 void EEPROM_MassErase() {

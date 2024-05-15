@@ -12,7 +12,7 @@ int main (void) {
     RGBLED_Init();
     SW_Init();
     UART_0_Init();
-		bool initSuccess = EEPROM_Init();
+  bool initSuccess = EEPROM_Init();
     if (!initSuccess) {return 1;} 
     // Test1 (EEPROM readall and writeall) //
 

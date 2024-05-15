@@ -9,7 +9,8 @@
 #include "EEPROM.h"
 
 int main (void) {
-    RGBLED_Init();
+    char test1[18] = {'h','1','h','1','h','1','h','1','h','1','h','1','h','1','h','1','h','l'};
+		RGBLED_Init();
     SW_Init();
     UART_0_Init();
   bool initSuccess = EEPROM_Init();
@@ -30,6 +31,8 @@ int main (void) {
     if (flag) green_on();
     else red_on();
     while (1);
+
+
 
     //int param;
 

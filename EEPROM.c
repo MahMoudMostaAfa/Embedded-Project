@@ -10,13 +10,18 @@ bool EEPROM_Init(void) { // It returns if the EEPROM init is successful or not
     for (int i = 0; i <=7; i++);                    // Halting loop
     while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
     if ((EEPROM_EESUPP_R & 0x0C) != 0)return false; // Check for EEPROM failure
-    CLR(SYSCTL_SREEPROM_R, 1);                      // Clear software reset bit
-    while (SYSCTL_PREEPROM_R == 0);                 // Checks if the EEPROM is ready
-    while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
-    if ((EEPROM_EESUPP_R &0x0C) != 0) return false; // Check for EEPROM failure
+    //CLR(SYSCTL_SREEPROM_R, 1);                      // Clear software reset bit
+    //while (SYSCTL_PREEPROM_R == 0);                 // Checks if the EEPROM is ready
+    //while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
+    //if ((EEPROM_EESUPP_R &0x0C) != 0) return false; // Check for EEPROM failure
     EEPROM_EEBLOCK_R = 0x0000;                      // Start from Block #0
     EEPROM_EEOFFSET_R = 0x1;                        // at the start of the block
     return true; // Initialization successful
+}
+bool hold() {
+    while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
+    if ((EEPROM_EESUPP_R & 0x0C) != 0) return false;
+    return true;
 }
 // Goes to the specified block and word
 void EEPROM_go_to(int block, int offset) {
@@ -34,21 +39,27 @@ void EEPROM_go_to_word(int offset) {
 // writes a 4-byte character array to the EEPROM
 void EEPROM_write(uint32_t word) {
     EEPROM_EERDWR_R = word;
+    hold();
 }
 // writes a 4-byte character array to the EEPROM and increments the offset
 void EEPROM_write_with_increment(uint32_t word) {
     EEPROM_EERDWRINC_R = word;
+    hold();
 }
 
 // reads a word from the EEPROM and put it in a character array
 uint32_t EEPROM_read_word() {
-    return (uint32_t)EEPROM_EERDWR_R;
+    uint32_t readed = (uint32_t)EEPROM_EERDWR_R;
+    hold();
+    return readed;
 }
 
 // reads a word from the EEPROM and put it in a character array
 // & then increments the block offset
 uint32_t EEPROM_read_word_with_increment() {
-    return (uint32_t)EEPROM_EERDWRINC_R;
+    uint32_t readed = (uint32_t)EEPROM_EERDWRINC_R;
+    hold();
+    return readed;
 }
 // Reads until a null is found
 void EEPROM_readall(char *arr) {
@@ -76,15 +87,15 @@ void EEPROM_writeall(char *arr, uint16_t size) {
     uint32_t temp;
     uint16_t counter = 0;
     while (size > 0) {
-        uint16_t remainingByte = (size > 4) ? 4 : size; // DeterremainingByteine bytes to process
+        uint16_t remainingByte = (size > 4) ? 4 : size; // Dete remaining Byte in bytes to process
         temp = 0;
         for (char i = 0; i < remainingByte; i++) {
             temp |= ((uint32_t)(*arr++) << ((3 - i) * 8)); // Construct 32-bit
             size--;
+            counter++;
         }
-        EEPROM_EERDWRINC_R = temp; // Write to EEPROM and increment
+        EEPROM_write_with_increment(temp); // Write to EEPROM and increment
         if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++; // Handle block increment
-        counter++;
     }
     // Write the number of 32-bit words stored in the first word
     EEPROM_go_to(0, 0);

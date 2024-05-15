@@ -15,10 +15,10 @@ char *container ; //pointer used in formatting the GPS log data
 
 
 
-float longPoints[2000];
-float latPoints[2000];
+float longPoints[200];
+float latPoints[200];
 
-char gpsOutput[4500];
+char gpsOutput[1000];
 
 float GPS_main(int *pCurrIndex){
 
@@ -36,7 +36,7 @@ float GPS_main(int *pCurrIndex){
         return 0 ;
     }
 
-    float small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
+ float small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
                                                                                                                                           //
     if (small_dist < 0.5){
         return 0;

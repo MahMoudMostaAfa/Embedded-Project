@@ -1,4 +1,4 @@
-import serial
+import serial.tools.list_ports
 import csv
 import os
 
@@ -6,7 +6,7 @@ import os
 com_ports = serial.tools.list_ports.comports()
 
 # Initialize the selected port
-selected_port = serial.Serial(baudrate=115200)
+selected_port = serial.Serial(baudrate=9600, timeout=1)
 
 # Select the desired Port from the port list
 for port in com_ports:
@@ -21,24 +21,29 @@ for port in com_ports:
             print("Failed to open the port")
             exit(1)
         break   # Exit the loop
-
+# selected_port.read() # Read the port
+# selected_port.write('S')
+# data = selected_port.read(34)
+# print(f"Encoded data = {data}")
+# decoded = data.decode()
+# print(f"Decoded data = {decoded}")
 # If no port is selected exit the program
 if not selected_port.port:
     print("No more COM ports found")
     exit(1)
 
-## The Implemented PC-Tiva Interface goes like follows:
-# 1 - The tiva loads the EEPROM data into the memory
-# 2 - Tiva waits until the PC sends a specific bit specifying that PC is ready to recieve
-# 3 - Tiva sends first the size of the data in bytes to PC
-# 4 - PC sends another character to recieve the actual data
-# 5 - Tiva sends the actual coordinate data & PC fetches and organises data
+# ## The Implemented PC-Tiva Interface goes like follows:
+# # 1 - The tiva loads the EEPROM data into the memory
+# # 2 - Tiva waits until the PC sends a specific bit specifying that PC is ready to recieve
+# # 3 - Tiva sends first the size of the data in bytes to PC
+# # 4 - PC seynds another character to recieve the actual data
+# # 5 - Tiva sends the actual coordinate data & PC fetches and organises data
 
 ## The following code is made for the following string configuration:
 #  long1,lat1|long2,lat2|long3,lat3|....|long(n),lat(n)
 
 selected_port.write(b'S') # Request size of data
-size_bytes = selected_port.read(4) # Reads size in bytes
+size_bytes = selected_port.read(1) # Reads size in bytes
 
 try: # Convert the data to an integer
     size = int.from_bytes(size_bytes, 'little') # Configuring the decode for little endian
@@ -48,7 +53,7 @@ except UnicodeDecodeError:
     exit(1)
 
 selected_port.write(b'D') # Request data
-data_bytes = selected_port.read(size) # Reads data
+data_bytes = selected_port.readall() # Reads data
 
 try: # Put data in a string
     data_string = data_bytes.decode('ascii').strip()

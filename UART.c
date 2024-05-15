@@ -28,6 +28,12 @@ void UART_0_Write(char data){
 	UART0_DR_R = data;
 }
 
+void UART_0_Write_string(char* byte){
+	while (*byte){
+		UART_0_Write(*byte);
+		byte++;
+	}
+}
 
 
 // initialze UART 1

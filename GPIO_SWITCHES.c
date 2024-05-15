@@ -59,18 +59,30 @@ unsigned char switch2_in(void){
     return GPIO_PORTF_DATA_R & 0x01;
 }
 
+void leds_off (){
+    GPIO_PORTF_DATA_R &= ~ALL_LEDS;
+}
+
 //turn on green led
 void green_on (void){
+    leds_off();
     GPIO_PORTF_DATA_R |= GREEN_LED_VALUE;
+}
+
+void blue_on (void){
+    leds_off();
+    GPIO_PORTF_DATA_R |= 0x04;
 }
 
 //turn off green led
 void green_off(void){
+
     GPIO_PORTF_DATA_R &= ~GREEN_LED_VALUE;                 
 }
 
 //turn on red led
 void red_on (void){
+    leds_off();
     GPIO_PORTF_DATA_R |= RED_LED;
 }
 

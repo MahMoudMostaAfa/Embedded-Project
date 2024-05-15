@@ -13,6 +13,7 @@
 
 void RGBLED_Init(void);
 void SW_Init(void);
+void enable_SW_Interrupts();
 unsigned char switch1_in(void);     //input Switch 1 (pf0)
 unsigned char switch2_in(void);     //if needed
 void green_on(void);

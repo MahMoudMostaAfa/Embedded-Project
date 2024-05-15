@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "SysTick_Timer.h"
 
-char flag = 0;
+int flag = 0;
 
 void GPIOF_Handler() {
 	uint32_t interrupt_status = GPIO_PORTF_MIS_R;
@@ -85,17 +85,22 @@ int main (void) {
 //    while (1);
 
     //* Test4 (Storing float in EEPROM) *//
-    //float fl = 31.279806995999685f;
-    //uint32_t test1;
-    //memcpy(&test1, &fl, sizeof(fl));
-    //EEPROM_go_to(0,0);
-    //EEPROM_write(test1);
-    //uint32_t test2 = EEPROM_read_word();
-    //float fll;
-    //memcpy(&fll, &test2, sizeof(test2));
-    //if (fl == fll) green_on();
-    //else red_on();
-    //while (1);
+    // float fl = 31.279806995999685f;
+    // uint32_t test1  ;
+		// test1 = (uint32_t)f1 ;
+		
+		// uint32_t test2 = EEPROM_read_word();
+    // float fll ;
+		// fll = (float)test2 ;
+		
+    // memcpy(&test1, fl, sizeof(fl));
+    // EEPROM_go_to(0,0);
+    // EEPROM_write(test1);
+    
+    // memcpy(&fll, test2, sizeof(test2));
+    // if (fl == fll) green_on();
+    // else red_on();
+    // while (1);
 				int i=0; // first index of lat and lng arrays 
 		    while (1){
 						if(flag) {
@@ -104,16 +109,22 @@ int main (void) {
 							EEPROM_writeall(finalOutput, finalLength);
 							while(1);
 						}
-						else {
+						if(flag == 0) {
 						wait_sec(2);
 						float distance = GPS_main(&i);
 						if (distance == -1){
 							red_on();
+              wait_ms(500);
+              //red_off();
 						}else if (distance == 0) {
 							blue_on();
+              wait_ms(500);
+              //blue_off();
 						}else if (distance>0) {
 							totalDistance += distance;
 							green_on();
+              wait_ms(500);
+              //green_off();
 						}
 				sprintf(sTotalDistance , "%f" ,totalDistance);
         UART_0_Write_string(sTotalDistance);

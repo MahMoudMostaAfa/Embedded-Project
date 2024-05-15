@@ -23,6 +23,8 @@ void red_off(void);
 void Distance_check(int pass_100_meter);
 void leds_off ();
 void blue_on (void);
+void blue_off (void);
+
 
 
 #endif

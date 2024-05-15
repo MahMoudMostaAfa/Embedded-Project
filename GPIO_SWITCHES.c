@@ -74,6 +74,12 @@ void blue_on (void){
     GPIO_PORTF_DATA_R |= 0x04;
 }
 
+void blue_off (void){
+    GPIO_PORTF_DATA_R |= BLUE_LED;
+
+}
+
+
 //turn off green led
 void green_off(void){
 

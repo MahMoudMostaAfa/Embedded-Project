@@ -10,10 +10,10 @@ bool EEPROM_Init(void) { // It returns if the EEPROM init is successful or not
     for (int i = 0; i <=7; i++);                    // Halting loop
     while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
     if ((EEPROM_EESUPP_R & 0x0C) != 0)return false; // Check for EEPROM failure
-    CLR(SYSCTL_SREEPROM_R, 1);                      // Clear software reset bit
-    while (SYSCTL_PREEPROM_R == 0);                 // Checks if the EEPROM is ready
-    while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
-    if ((EEPROM_EESUPP_R &0x0C) != 0) return false; // Check for EEPROM failure
+    //CLR(SYSCTL_SREEPROM_R, 1);                      // Clear software reset bit
+    //while (SYSCTL_PREEPROM_R == 0);                 // Checks if the EEPROM is ready
+    //while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
+    //if ((EEPROM_EESUPP_R &0x0C) != 0) return false; // Check for EEPROM failure
     EEPROM_EEBLOCK_R = 0x0000;                      // Start from Block #0
     EEPROM_EEOFFSET_R = 0x1;                        // at the start of the block
     return true; // Initialization successful

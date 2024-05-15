@@ -13,6 +13,8 @@
 
 
 int main (void) {
+
+    int i=0;
     float totalDistance =0;
     char sTotalDistance[10];
     RGBLED_Init();
@@ -26,8 +28,7 @@ int main (void) {
 
     green_on();
     while (1){
-        int i=0;
-        wait_ms(500);
+        wait_ms(1000);
         float distance = GPS_main(&i);
         if (distance == -1){
             red_on();
@@ -40,11 +41,6 @@ int main (void) {
 
         sprintf(sTotalDistance , "%f" ,totalDistance );
         UART_0_Write_string(sTotalDistance);
-
-        
-        
-
-
         
 
     }

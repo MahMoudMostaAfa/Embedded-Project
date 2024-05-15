@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "SysTick_Timer.h"
 
-int flag = 0;
+char flag = 0;
 
 void GPIOF_Handler() {
 	uint32_t interrupt_status = GPIO_PORTF_MIS_R;
@@ -32,9 +32,9 @@ int main (void) {
     SysTick_Init();
 		float totalDistance =0;
 		char sTotalDistance[10];
-		/*bool initSuccess = EEPROM_Init();
+		bool initSuccess = EEPROM_Init();
     if (!initSuccess) {return 1;} 
-    // Test1 (EEPROM readall and writeall) //
+    /*// Test1 (EEPROM readall and writeall) //
 
     char test1[18] = "Hi, this is a test";   
     EEPROM_writeall(test1, 18);

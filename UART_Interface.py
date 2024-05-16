@@ -39,8 +39,8 @@ if not selected_port.port:
 # # 4 - PC seynds another character to recieve the actual data
 # # 5 - Tiva sends the actual coordinate data & PC fetches and organises data
 
-## The following code is made for the following string configuration:
-#  long1,lat1|long2,lat2|long3,lat3|....|long(n),lat(n)
+# The following code is made for the following string configuration:
+#long1,lat1|long2,lat2|long3,lat3|....|long(n),lat(n)
 
 selected_port.write(b'S') # Request size of data
 size_bytes = selected_port.read(1) # Reads size in bytes

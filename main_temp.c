@@ -1,4 +1,4 @@
-#include "tm4c123gh6pm.h"
+/*#include "tm4c123gh6pm.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+*/
+/*
 int main (void) {
 
     int i=0;
@@ -22,9 +23,9 @@ int main (void) {
     UART_0_Init();
     UART_5_Init();
     SysTick_Init();
-    /* bool initSuccess = EEPROM_Init(); */
-    /* if (!initSuccess) {return 1;} */ 
-    // Test1 (EEPROM readall and writeall) //
+     bool initSuccess = EEPROM_Init(); 
+    if (!initSuccess) {return 1;}
+    //Test1 (EEPROM readall and writeall) //
 
     green_on();
     while (1){
@@ -45,3 +46,5 @@ int main (void) {
 
     }
 }
+*/
+

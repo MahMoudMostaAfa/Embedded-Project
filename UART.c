@@ -64,7 +64,8 @@ char UART_5_Read(void){
 }
 void UART_5_Read_string(char* str,int len){
 	char c;
-	for(int i=0;i<len;i++){
+	int i =0;
+	for(;i<len;i++){
 		c=UART_5_Read();
 		if (c!=0x0D){
 			str[i]=c;

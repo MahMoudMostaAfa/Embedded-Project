@@ -6,8 +6,10 @@
 
 // Initialization function of EEPROM
 bool EEPROM_Init(void) { // It returns if the EEPROM init is successful or not
-    SET(SYSCTL_RCGCEEPROM_R,1);                     // Enables the clock
-    for (int i = 0; i <=7; i++);                    // Halting loop
+	int i;
+    SET(SYSCTL_RCGCEEPROM_R,1);	// Enables the clock
+		
+    for ( i = 0; i <=7; i++);                    // Halting loop
     while ((EEPROM_EEDONE_R & 0x01) != 0);          // Waiting for EEPROM operation
     if ((EEPROM_EESUPP_R & 0x0C) != 0)return false; // Check for EEPROM failure
     //CLR(SYSCTL_SREEPROM_R, 1);                      // Clear software reset bit
@@ -63,16 +65,20 @@ uint32_t EEPROM_read_word_with_increment() {
 }
 // Reads until a null is found
 void EEPROM_readall(char *arr) {
-    EEPROM_go_to(0,0);
-    uint32_t size = EEPROM_read_word_with_increment();
+		uint32_t size;
     uint32_t holder;
-    char character;
+	char i;
+	char character;
     uint16_t counter = 0;
     uint32_t temp;
+    EEPROM_go_to(0,0);
+    size = EEPROM_read_word_with_increment();
+    
     while (1) {
         holder = EEPROM_read_word_with_increment();
         if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++;
-        for (char i = 0; i < 4 ; i++) {
+				
+        for (i = 0; i < 4 ; i++) {
             temp = holder;
             character = (char)(temp >> (8 * (3 - i)));
             if (character == '\0' || counter == size -1) return;
@@ -83,13 +89,17 @@ void EEPROM_readall(char *arr) {
 }
 // Writes an array of characters into EEPROM
 void EEPROM_writeall(char *arr, uint16_t size) {
-    EEPROM_go_to(0, 1); // Initialize EEPROM write pointer to start
-    uint32_t temp;
+	char i;
+	uint32_t temp;
     uint16_t counter = 0;
+	uint16_t remainingByte;
+    EEPROM_go_to(0, 1); // Initialize EEPROM write pointer to start
+    
     while (size > 0) {
-        uint16_t remainingByte = (size > 4) ? 4 : size; // Dete remaining Byte in bytes to process
+         remainingByte = (size > 4) ? 4 : size; // Dete remaining Byte in bytes to process
         temp = 0;
-        for (char i = 0; i < remainingByte; i++) {
+			
+        for (i = 0; i < remainingByte; i++) {
             temp |= ((uint32_t)(*arr++) << ((3 - i) * 8)); // Construct 32-bit
             size--;
             counter++;

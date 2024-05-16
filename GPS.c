@@ -21,6 +21,7 @@ float latPoints[200];
 char gpsOutput[1000];
 
 float GPS_main(int *pCurrIndex){
+	float small_dist;
 
     int currIndex = *pCurrIndex;
     int status=0;
@@ -37,7 +38,7 @@ float GPS_main(int *pCurrIndex){
         return 0 ;
     }
 
- float small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
+  small_dist = GPS_getDistance(longPoints[currIndex-1] , latPoints[currIndex-1] , longPoints[currIndex] , latPoints[currIndex]); // getting the distance walked between 2 points
                                                                                                                                           //
     if (small_dist < 1.0){
         return 0;
@@ -62,6 +63,7 @@ char* GPS_getOutput(int end){
 
 void readGPS() {
 	char charRead;
+	char logIndex;
 	while(1) {
 		char i = 0;
 		//Loop to get the required logname
@@ -82,7 +84,7 @@ void readGPS() {
 	strcpy(finalLog, ""); //Clear finalLog
 
 	//loop to get log after "$GPRMC,"  (not taking logName)
-	char logIndex = 0;
+	 logIndex = 0;
 	while(charRead != '*') {
 		finalLog[logIndex++] = charRead;
 		charRead = UART_5_Read();

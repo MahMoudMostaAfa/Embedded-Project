@@ -65,42 +65,40 @@ uint32_t EEPROM_read_word_with_increment() {
 }
 // Reads until a null is found
 void EEPROM_readall(char *arr) {
-		uint32_t size;
+	uint32_t size;
     uint32_t holder;
 	char i;
 	char character;
     uint16_t counter = 0;
     uint32_t temp;
     EEPROM_go_to(0,0);
-    size = EEPROM_read_word_with_increment();
-    
+    size = EEPROM_read_word_with_increment();   // Retrieve the size of the array stored
     while (1) {
-        holder = EEPROM_read_word_with_increment();
-        if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++;
+        holder = EEPROM_read_word_with_increment(); // retrieve a word from the EEPROM
+        if (EEPROM_EEOFFSET_R == 0) EEPROM_EEBLOCK_R++; // Handle block increment
 				
-        for (i = 0; i < 4 ; i++) {
+        for (i = 0; i < 4 ; i++) {  // fetch the characters from each word
             temp = holder;
             character = (char)(temp >> (8 * (3 - i)));
-            if (character == '\0' || counter == size -1) return;
-            arr[counter] = character;
+            if (character == '\0' || counter == size -1) return;  // check for reaching the end of the data
+            arr[counter] = character;   // stores the character inside the array
             counter++;
         }                                                                                                                                                                                                                                                                                                       
     }
 }
 // Writes an array of characters into EEPROM
 void EEPROM_writeall(char *arr, uint16_t size) {
-	char i;
 	uint32_t temp;
     uint16_t counter = 0;
 	uint16_t remainingByte;
     EEPROM_go_to(0, 1); // Initialize EEPROM write pointer to start
-    
     while (size > 0) {
-         remainingByte = (size > 4) ? 4 : size; // Dete remaining Byte in bytes to process
+        char i;
+        remainingByte = (size > 4) ? 4 : size; // Dete remaining Byte in bytes to process
         temp = 0;
 			
-        for (i = 0; i < remainingByte; i++) {
-            temp |= ((uint32_t)(*arr++) << ((3 - i) * 8)); // Construct 32-bit
+        for (i = 0; i < remainingByte; i++) {   // Stores the char in a holder word
+            temp |= ((uint32_t)(*arr++) << ((3 - i) * 8)); 
             size--;
             counter++;
         }

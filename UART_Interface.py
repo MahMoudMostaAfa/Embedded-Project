@@ -42,15 +42,15 @@ if not selected_port.port:
 # The following code is made for the following string configuration:
 #long1,lat1|long2,lat2|long3,lat3|....|long(n),lat(n)
 
-selected_port.write(b'S') # Request size of data
-size_bytes = selected_port.read(1) # Reads size in bytes
+# selected_port.write(b'S') # Request size of data
+# size_bytes = selected_port.read(1) # Reads size in bytes
 
-try: # Convert the data to an integer
-    size = int.from_bytes(size_bytes, 'little') # Configuring the decode for little endian
-    print(f"Size of the data is {size} Bytes")  
-except UnicodeDecodeError:
-    print("Invalid data received")
-    exit(1)
+# try: # Convert the data to an integer
+#     size = int.from_bytes(size_bytes, 'little') # Configuring the decode for little endian
+#     print(f"Size of the data is {size} Bytes")  
+# except UnicodeDecodeError:
+#     print("Invalid data received")
+#     exit(1)
 
 selected_port.write(b'D') # Request data
 data_bytes = selected_port.readall() # Reads data

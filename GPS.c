@@ -22,6 +22,9 @@ volatile char gpsOutput[1000];
 
 float GPS_main(int *pCurrIndex){
 	float small_dist;
+    float longPoint;
+    float latPoint;
+
 
     int currIndex = *pCurrIndex;
     int status=0;
@@ -31,6 +34,20 @@ float GPS_main(int *pCurrIndex){
     if (status==-1){
         return -1;
     }
+
+
+    longPoint = longPoints[currIndex];
+    latPoint = latPoints[currIndex];
+
+    UART_0_Write('\n');
+    UART_0_Write_string((char *) longPoint);
+    UART_0_Write('\n');
+    UART_0_Write_string((char *) latPoint);
+    UART_0_Write('\n');
+
+
+
+    
 
     if (currIndex ==0){
 
@@ -44,6 +61,7 @@ float GPS_main(int *pCurrIndex){
     if (small_dist < 1.0){
         return 0;
     }
+
 
     *pCurrIndex +=1;
 

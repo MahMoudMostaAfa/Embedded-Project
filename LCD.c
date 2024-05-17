@@ -4,12 +4,11 @@
 #include <stdint.h>
 #include <string.h>
 
-#define LCD_RS 0x20 //RS pin
-#define LCD_E 0x80  //E pin
+
 
 void systick_wait_1us(){
 	NVIC_ST_CTRL_R=0;// CLEAR  ENABLE BIT
-	NVIC_ST_RELOAD_R=16-1 ; //  (1ms*SYS_CLK)-1
+	NVIC_ST_RELOAD_R=16-1 ; //  (1us*SYS_CLK)-1
 	NVIC_ST_CURRENT_R=0; //CLEAR CURRENT
 	NVIC_ST_CTRL_R=0x05; // enable , inten ,clk_src ;
 	while( (NVIC_ST_CTRL_R & 0x00010000) == 0) ; // make sure flag not set to 1
@@ -41,21 +40,21 @@ void LCD_Init(void) {
     GPIO_PORTB_DEN_R  |= 0XFF;     //enable digital I/O on PB0-7
 
 		wait_ms(20);
-			LCD_Cmd(0x38);
+			LCD_Cmd(Func_8bit_2line);
 			wait_ms(5);
-			LCD_Cmd(0x38);
+			LCD_Cmd(Func_8bit_2line);
 			wait_us(100);
-			LCD_Cmd(0x38);
-			LCD_Cmd(0x08);
-			LCD_Cmd(0x01);
-			LCD_Cmd(0x06);
-			LCD_Cmd(0x0E);
+			LCD_Cmd(Func_8bit_2line);
+			LCD_Cmd(Disp_off_cursor_off);
+			LCD_Cmd(Clear_Disp);
+			LCD_Cmd(Shift_cursor_right);
+			LCD_Cmd(Disp_on_cursor_on);
 }
 //send commands to the LCD
 void LCD_Cmd(unsigned int command) {
-		GPIO_PORTA_DATA_R =0x20;  //clear A5==>RS    A6==>R/W   A7==>E
+		GPIO_PORTA_DATA_R =0x00;  //clear A5==>RS    A6==>R/W   A7==>E
     GPIO_PORTB_DATA_R = command;  //set Pins B0=>7 as the passed command
-		GPIO_PORTA_DATA_R = 0x80;
+		GPIO_PORTA_DATA_R = LCD_E;
 		wait_us(1);
 	  GPIO_PORTA_DATA_R = 0x00;
 		wait_ms(2);
@@ -64,10 +63,10 @@ void LCD_Cmd(unsigned int command) {
 
 //send data (1 byte) to the LCD
 void LCD_Data (unsigned char data ) {
-        	GPIO_PORTA_DATA_R =0x20;  //clear A5==>RS    A6==>R/W   A7==>E
+        	GPIO_PORTA_DATA_R =LCD_RS;  //set A5==>RS  clear  A6==>R/W   A7==>E
 		   //clear RS==>1    R/W==>0   E==>0
         	GPIO_PORTB_DATA_R = data;   //set Pins B0=>7 as the passed command
-	GPIO_PORTA_DATA_R = 0x80|0x20;
+	GPIO_PORTA_DATA_R = LCD_E|LCD_RS;
 	wait_us(1);
 	  GPIO_PORTA_DATA_R=0;
 		wait_ms(1);
@@ -77,7 +76,7 @@ void LCD_Data (unsigned char data ) {
 //print a String to the LCD
 void LCD_Write_String(char* String){
 	int i=0;
-	LCD_Cmd(0x0C);
+	LCD_Cmd(Disp_on_cursor_off);
 
     while(String[i]!='\0'){
         LCD_Data(String[i]);

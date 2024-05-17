@@ -1,12 +1,14 @@
 #ifndef GPIO_SWITCHES_H 
 #define GPIO_SWITCHES_H
-// Macros
 
+// Macros
+#define GPIO_PORTF_LOCK_R_VALUE GPIO_LOCK_KEY
+#define ALL_LEDS_VALUE 0x0E
+#define ALL_SWITCHES_VALUE 0x11
+#define GREEN_LED_VALUE 0x08
 #define RED_LED       0x02           
 #define BLUE_LED      0x04           
-#define GREEN_LED     0x08
-#define ALL_LEDS      0x0E
-#define ALL_SWITCHES  0x11
+
 
 
 // Prototypes

@@ -2,18 +2,15 @@
 #include "GPIO_SWITCHES.h"
 #include <stdint.h>
 
-#define SYSCTL_RCGCGPIO_R_VALUE 0x20
-#define GPIO_PORTF_LOCK_R_VALUE GPIO_LOCK_KEY
-#define ALL_LEDS_VALUE ALL_LEDS
-#define ALL_SWITCHES_VALUE ALL_SWITCHES
-#define GREEN_LED_VALUE GREEN_LED
+
+
 
 
 
 //Initialize Port F LEDs
 void RGBLED_Init(void){
-    SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R_VALUE;
-    while((SYSCTL_PRGPIO_R & SYSCTL_RCGCGPIO_R_VALUE) == 0);
+    SYSCTL_RCGCGPIO_R |= 0x20;
+    while((SYSCTL_PRGPIO_R & 0x20) == 0);
     GPIO_PORTF_LOCK_R = GPIO_PORTF_LOCK_R_VALUE;
     GPIO_PORTF_CR_R |= ALL_LEDS_VALUE;
     GPIO_PORTF_AMSEL_R &= ~ALL_LEDS_VALUE;
@@ -71,11 +68,11 @@ void green_on (void){
 
 void blue_on (void){
     leds_off();
-    GPIO_PORTF_DATA_R |= 0x04;
+    GPIO_PORTF_DATA_R |= BLUE_LED;
 }
 
 void blue_off (void){
-    GPIO_PORTF_DATA_R |= BLUE_LED;
+    GPIO_PORTF_DATA_R &= ~BLUE_LED;
 
 }
 
